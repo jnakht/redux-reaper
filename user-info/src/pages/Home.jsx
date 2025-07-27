@@ -11,8 +11,8 @@ const Home = () => {
         phone: "",
     })
 
-    const updateUserInfo = (inputField, value) => {
-        setUserInfo({...userInfo, [inputField] : value});
+    const updateUserInfo = (e) => {
+        setUserInfo({...userInfo, [e.target.name] : e.target.value});
     }
 
     const handleSubmit = (e) => {
@@ -33,7 +33,7 @@ const Home = () => {
                         name="name"
                         id="name"
                         value={userInfo.name}
-                        onChange={(e) => updateUserInfo("name", e.target.value)}
+                        onChange={updateUserInfo}
                     />
                 </div>
 
@@ -45,7 +45,7 @@ const Home = () => {
                         name="email"
                         id="email"
                         value={userInfo.email}
-                        onChange={(e) => updateUserInfo("email", e.target.value)}
+                        onChange={updateUserInfo}
                     />
                 </div>
 
@@ -57,7 +57,7 @@ const Home = () => {
                         name="phone"
                         id="phone"
                         value={userInfo.phone}
-                        onChange={(e) => updateUserInfo("phone", e.target.value)}
+                        onChange={updateUserInfo}
                     />
                 </div>
                 <button>Submit</button>

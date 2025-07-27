@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 
 const HomeRecap = () => {
-    const [userInfo, setUserInfo] = useState({
-        name: "",
+    // const [userInfo, setUserInfo] = useState({
+    //     name: "",
+    //     email: "",
+    //     phone: "",
+    // })
+
+
+    // const updateUserInfo = (e) => {
+    //     setUserInfo({...userInfo, [e.target.name]: e.target.value});
+    // }
+
+    const initialState = {
+        name : "",
         email: "",
         phone: "",
-    })
-
-    const updateUserInfo = (inputField, value) => {
-        setUserInfo({...userInfo, [inputField]: value});
     }
+    const [userInfo, dispatch] = useReducer(reducer, initialState);
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,7 +35,7 @@ const HomeRecap = () => {
                         name="name" 
                         id="name"
                         value={userInfo.name}
-                        onChange={(e) => {updateUserInfo(e.target.name, e.target.value)}}
+                        onChange={updateUserInfo}
                     />
                 </div>
                 <div>
@@ -38,7 +46,7 @@ const HomeRecap = () => {
                         name="email" 
                         id="email"
                         value={userInfo.email}
-                        onChange={(e) => {updateUserInfo(e.target.name, e.target.value)}}
+                        onChange={updateUserInfo}
                     />
                 </div>
                 <div>
@@ -49,7 +57,7 @@ const HomeRecap = () => {
                         name="phone" 
                         id="phone"  
                         value={userInfo.phone}
-                        onChange={(e) => {updateUserInfo(e.target.name, e.target.value)}}
+                        onChange={updateUserInfo}
                     />
                 </div>
                 <button>Submit</button>
