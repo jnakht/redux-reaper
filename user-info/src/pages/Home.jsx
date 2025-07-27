@@ -1,18 +1,49 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 
 const Home = () => {
     // const [name, setName] = useState("");
     // const [email, setEmail] = useState("");
     // const [phone, setPhone] = useState("");
 
-    const [userInfo, setUserInfo] = useState({
+    // const [userInfo, setUserInfo] = useState({
+    //     name: "",
+    //     email: "",
+    //     phone: "",
+    // })
+
+    // const updateUserInfo = (e) => {
+    //     setUserInfo({...userInfo, [e.target.name] : e.target.value});
+    // }
+
+    const initialState = {
         name: "",
         email: "",
         phone: "",
-    })
+    }
+    const reducer = (state, action) => {
+        switch(action.type) {
+            case "FIELD_UPDATE": 
+                return {
+                    ...state,
+                    [action.payload.field]: action.payload.value
+                }
+            default: 
+                return state;
+        }
+    }
 
-    const updateUserInfo = (e) => {
-        setUserInfo({...userInfo, [e.target.name] : e.target.value});
+    const [userInfo, dispatch] = useReducer(reducer, initialState);
+
+    console.log(userInfo);
+
+    const handleOnChange = (e) => {
+        dispatch({
+            type: "FIELD_UPDATE",
+            payload: {
+                field: e.target.name,
+                value: e.target.value
+            }
+        })
     }
 
     const handleSubmit = (e) => {
@@ -33,7 +64,7 @@ const Home = () => {
                         name="name"
                         id="name"
                         value={userInfo.name}
-                        onChange={updateUserInfo}
+                        onChange={handleOnChange}
                     />
                 </div>
 
@@ -45,7 +76,7 @@ const Home = () => {
                         name="email"
                         id="email"
                         value={userInfo.email}
-                        onChange={updateUserInfo}
+                        onChange={handleOnChange}
                     />
                 </div>
 
@@ -57,7 +88,7 @@ const Home = () => {
                         name="phone"
                         id="phone"
                         value={userInfo.phone}
-                        onChange={updateUserInfo}
+                        onChange={handleOnChange}
                     />
                 </div>
                 <button>Submit</button>
