@@ -17,8 +17,30 @@ const HomeRecap = () => {
         email: "",
         phone: "",
     }
+    const reducer = (state, action) => {
+        switch(action.type) {
+            case "FIELD_UPDATE": 
+                return {
+                    ...state,
+                    [action.payload.field]: action.payload.value
+                };
+            default: 
+                return state;
+        }
+    }
     const [userInfo, dispatch] = useReducer(reducer, initialState);
     
+    console.log(userInfo);
+    const handleOnChange = (e) => {
+        dispatch({
+            type: "FIELD_UPDATE",
+            payload: {
+                field: e.target.name,
+                value: e.target.value
+            }
+        })
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(userInfo);
@@ -35,7 +57,7 @@ const HomeRecap = () => {
                         name="name" 
                         id="name"
                         value={userInfo.name}
-                        onChange={updateUserInfo}
+                        onChange={handleOnChange}
                     />
                 </div>
                 <div>
@@ -46,7 +68,7 @@ const HomeRecap = () => {
                         name="email" 
                         id="email"
                         value={userInfo.email}
-                        onChange={updateUserInfo}
+                        onChange={handleOnChange}
                     />
                 </div>
                 <div>
@@ -57,7 +79,7 @@ const HomeRecap = () => {
                         name="phone" 
                         id="phone"  
                         value={userInfo.phone}
-                        onChange={updateUserInfo}
+                        onChange={handleOnChange}
                     />
                 </div>
                 <button>Submit</button>
