@@ -12,11 +12,19 @@ const initialState: InitialState = {
     tasks: [
         {
         id: "104",
-        title: "Task 1",
-        description: "This identifies as task 1 description",
+        title: "Initialize Github",
+        description: "Initialize the github repo when make any new repo",
         dueDate: "2025-12-31",
         isCompleted: false,
         priority: "High",
+        },
+        {
+        id: "105",
+        title: "Make the dishes done",
+        description: "Do it, or it will be clean by the maid",
+        dueDate: "2025-12-31",
+        isCompleted: false,
+        priority: "Medium",
         }
     ],
     filter: "all"
