@@ -22,7 +22,7 @@ export default function Tasks() {
           <AddTaskModal></AddTaskModal>
         </div>
         {
-        tasks.map(task => <TaskCard task={task}></TaskCard>)
+        tasks.map(task => <TaskCard key={task.id} task={task}></TaskCard>)
         }
       </div>
     </div>
