@@ -24,16 +24,16 @@ import { format } from "date-fns"
 
 import { CalendarIcon } from "lucide-react"
 
-import { useForm } from "react-hook-form"
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 
 export function AddTaskModal() {
 
   const form = useForm();
   const dispatch = useAppDispatch();
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
-    dispatch(addTask(data));
+    dispatch(addTask(data as ITask));
   }
 
   return (
