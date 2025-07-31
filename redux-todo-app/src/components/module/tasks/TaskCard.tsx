@@ -1,15 +1,32 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { deleteTask, toggleTaskCompletion } from "@/redux/features/task/taskSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import type { ITask } from "@/types";
-import { Trash2 } from "lucide-react";
+import { SquarePen, Trash2 } from "lucide-react";
+import { AddTaskModal } from "./AddTaskModal";
 
 
 interface IProps {
     task : ITask
 }
 
+export interface IArgs {
+  mode: string,
+  initialData?: ITask,
+}
+
 export default function TaskCard({task} : IProps) {
+
+  const dispatch = useAppDispatch();
+
+  const args : IArgs = {
+    mode: "update",
+    initialData: task
+  }
+
+
   return (
     <div className="border-2 flex flex-col p-3 rounded-md">
         {/* upper part of card */}
@@ -21,14 +38,18 @@ export default function TaskCard({task} : IProps) {
                     "bg-yellow-500": task.priority === "Medium",
                     "bg-red-500": task.priority === "High"
                 })}></div>
-                <h1>{task.title}</h1>
+                <h1 className={cn("", {
+                  'line-through' : task.isCompleted
+                })}>{task.title}</h1>
             </div>
              {/* right part */}
             <div className=" flex flex-1 justify-end gap-3 items-center">
-                <Button variant="link" className="p-0 text-red-500">
+                {/* <SquarePen className="size-5" /> */}
+                <AddTaskModal args={args}></AddTaskModal>
+                <Button onClick={() => dispatch(deleteTask(task.id))} variant="link" className="p-0 text-red-500">
                     <Trash2 />
                 </Button>
-                <Checkbox className="" />
+                <Checkbox checked={task.isCompleted === true} onClick={() => dispatch(toggleTaskCompletion(task.id))} className="" />
             </div>
       </div>
          {/* lower part of card */}

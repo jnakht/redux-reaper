@@ -17,7 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { addTask } from "@/redux/features/task/taskSlice"
+import { addTask, updateTask } from "@/redux/features/task/taskSlice"
 import { useAppDispatch } from "@/redux/hooks"
 import type { ITask } from "@/types"
 import { format } from "date-fns"
@@ -25,26 +25,42 @@ import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
+import type { IArgs } from "./TaskCard"
 
-export function AddTaskModal() {
+export function AddTaskModal({args}) {
 
-  const form = useForm();
+
+  const form = useForm({
+    defaultValues: args?.initialData ?? {
+      title: "",
+      description: "",
+      priority: "",
+      dueDate: "",
+    }
+  });
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
-    dispatch(addTask(data as ITask));
+    // dispatch(addTask(data as ITask));
+    if (args.mode === 'add') {
+      dispatch(addTask(data as ITask));
+    } else {
+      dispatch(updateTask(data as ITask))
+    }
+
+    // dispatch(updateTask(data as ITask))
   }
 
   return (
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button>Add Task</Button>
+          <Button>{args.mode === 'add' ? 'Add Task' : 'Update Task'}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Add Task</DialogTitle>
+            <DialogTitle>{args.mode === 'add' ? 'Add Task' : 'Update Task'}</DialogTitle>
 
           </DialogHeader>
 
@@ -60,7 +76,8 @@ export function AddTaskModal() {
                   <FormItem>
                     <FormLabel>Title</FormLabel>
                     <FormControl>
-                      <Input {...field} value={field.value || ""} />
+                      {/* <Input {...field} value={field.value || ""} /> */}
+                      <Input {...field} />
                     </FormControl>
                   </FormItem>
 
@@ -75,7 +92,8 @@ export function AddTaskModal() {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea {...field} value={field.value || ""} />
+                      {/* <Textarea {...field} value={field.value || ""} /> */}
+                      <Textarea {...field} />
                     </FormControl>
                   </FormItem>
 
@@ -89,7 +107,8 @@ export function AddTaskModal() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Priority</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    {/* <Select onValueChange={field.onChange} defaultValue={field.value}> */}
+                    <Select onValueChange={field.onChange} >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a priority" />
@@ -124,6 +143,7 @@ export function AddTaskModal() {
                           >
                             {field.value ? (
                               format(field.value, "PPP")
+                              // field.value
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -153,7 +173,7 @@ export function AddTaskModal() {
                 <DialogClose asChild>
                   <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button type="submit">Save changes</Button>
+                <Button type="submit">{args.mode === 'add' ? 'Add Task' : 'Update Task'}</Button>
               </DialogFooter>
             </form>
           </Form>
