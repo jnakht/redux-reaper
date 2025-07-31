@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { addTask, updateTask } from "@/redux/features/task/taskSlice"
-import { useAppDispatch } from "@/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import type { ITask } from "@/types"
 import { format } from "date-fns"
 
@@ -26,6 +26,7 @@ import { CalendarIcon } from "lucide-react"
 
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 import type { IArgs } from "./TaskCard"
+import { selectUsers } from "@/redux/features/user/userSlice"
 
 export function AddTaskModal({args}) {
 
@@ -39,6 +40,7 @@ export function AddTaskModal({args}) {
     }
   });
   const dispatch = useAppDispatch();
+  const users = useAppSelector(selectUsers);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
@@ -118,6 +120,30 @@ export function AddTaskModal({args}) {
                         <SelectItem value="Low">Low</SelectItem>
                         <SelectItem value="Medium">Medium</SelectItem>
                         <SelectItem value="High">High</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
+
+              <FormField
+                control={form.control}
+                name="assignedTo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Assigned To</FormLabel>
+                    {/* <Select onValueChange={field.onChange} defaultValue={field.value}> */}
+                    <Select onValueChange={field.onChange} >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a priority" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {
+                          users.map(user => <SelectItem value={user.id}>{user.name}</SelectItem>)
+                        }
                       </SelectContent>
                     </Select>
                   </FormItem>
