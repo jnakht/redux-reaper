@@ -27,9 +27,10 @@ import { CalendarIcon } from "lucide-react"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 import type { IArgs } from "./TaskCard"
 import { selectUsers } from "@/redux/features/user/userSlice"
+import { useState } from "react"
 
 export function AddTaskModal({args}) {
-
+  const [open, setOpen] = useState(false);
 
   const form = useForm({
     defaultValues: args?.initialData ?? {
@@ -50,12 +51,13 @@ export function AddTaskModal({args}) {
     } else {
       dispatch(updateTask(data as ITask))
     }
-
+    setOpen(false);
+    form.reset();
     // dispatch(updateTask(data as ITask))
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <form>
         <DialogTrigger asChild>
           <Button>{args.mode === 'add' ? 'Add Task' : 'Update Task'}</Button>
