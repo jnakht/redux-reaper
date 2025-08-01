@@ -28,6 +28,7 @@ import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 import type { IArgs } from "./TaskCard"
 
 import { useState } from "react"
+import { useCreateTaskMutation } from "@/redux/api/baseApi"
 
 export function AddTaskModal() {
   const [open, setOpen] = useState(false);
@@ -44,17 +45,19 @@ export function AddTaskModal() {
   // const users = useAppSelector(selectUsers);
   const form = useForm();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    // dispatch(addTask(data as ITask));
-    // if (args.mode === 'add') {
-    //   dispatch(addTask(data as ITask));
-    // } else {
-    //   dispatch(updateTask(data as ITask))
-    // }
-    // setOpen(false);
-    // form.reset();
-    // dispatch(updateTask(data as ITask))
+  
+
+  const [createTask, {data,  isLoading, isError }] = useCreateTaskMutation();
+  console.log("outside the onsubmit function", data);
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    // console.log(data);
+    const taskData = {
+      ...data,
+      isCompleted: false,
+    }
+    const res = await createTask(taskData).unwrap();
+    console.log("inside on submit: ", res);
   }
 
   return (
@@ -132,28 +135,28 @@ export function AddTaskModal() {
               />
 
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="assignedTo"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Assigned To</FormLabel>
+                    <FormLabel>Assigned To</FormLabel> */}
                     {/* <Select onValueChange={field.onChange} defaultValue={field.value}> */}
-                    <Select onValueChange={field.onChange} >
+                    {/* <Select onValueChange={field.onChange} >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a priority" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent> */}
                         {/* {
                           users.map(user => <SelectItem value={user.id}>{user.name}</SelectItem>)
                         } */}
-                      </SelectContent>
+                      {/* </SelectContent>
                     </Select>
                   </FormItem>
                 )}
-              />
+              /> */}
 
 
               <FormField
