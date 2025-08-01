@@ -27,7 +27,12 @@ export default function Tasks() {
 
 
   // api query
-  const { data, isError, isLoading } = useGetTasksQuery(undefined);
+  const { data, isError, isLoading } = useGetTasksQuery(undefined, {
+    pollingInterval: 30000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true
+  });
   console.log({ data, isError, isLoading });
 
 
