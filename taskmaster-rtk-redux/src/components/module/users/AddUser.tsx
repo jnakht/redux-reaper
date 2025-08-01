@@ -12,7 +12,6 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { addUser } from "@/redux/features/user/userSlice"
 import { useAppDispatch } from "@/redux/hooks"
 import type { IUser } from "@/types"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
@@ -20,11 +19,11 @@ import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 export function AddUser() {
 
     const form = useForm();
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
     const onSubmit : SubmitHandler<FieldValues> = (value) => {
         console.log(value);
-        dispatch(addUser(value as IUser));
+        // dispatch(addUser(value as IUser));
     }
 
     return (

@@ -19,7 +19,7 @@ function App() {
         </div>
 
         <div>
-          <ModeToggle></ModeToggle>
+          {/* <ModeToggle></ModeToggle> */}
         </div>
       </div>
       <Outlet></Outlet>

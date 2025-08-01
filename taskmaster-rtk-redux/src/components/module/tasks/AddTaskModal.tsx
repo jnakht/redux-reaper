@@ -17,7 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { addTask, updateTask } from "@/redux/features/task/taskSlice"
+
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import type { ITask } from "@/types"
 import { format } from "date-fns"
@@ -26,33 +26,34 @@ import { CalendarIcon } from "lucide-react"
 
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 import type { IArgs } from "./TaskCard"
-import { selectUsers } from "@/redux/features/user/userSlice"
+
 import { useState } from "react"
 
-export function AddTaskModal({args}) {
+export function AddTaskModal() {
   const [open, setOpen] = useState(false);
 
-  const form = useForm({
-    defaultValues: args?.initialData ?? {
-      title: "",
-      description: "",
-      priority: "",
-      dueDate: "",
-    }
-  });
+  // const form = useForm({
+  //   defaultValues: args?.initialData ?? {
+  //     title: "",
+  //     description: "",
+  //     priority: "",
+  //     dueDate: "",
+  //   }
+  // });
   const dispatch = useAppDispatch();
-  const users = useAppSelector(selectUsers);
+  // const users = useAppSelector(selectUsers);
+  const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
     // dispatch(addTask(data as ITask));
-    if (args.mode === 'add') {
-      dispatch(addTask(data as ITask));
-    } else {
-      dispatch(updateTask(data as ITask))
-    }
-    setOpen(false);
-    form.reset();
+    // if (args.mode === 'add') {
+    //   dispatch(addTask(data as ITask));
+    // } else {
+    //   dispatch(updateTask(data as ITask))
+    // }
+    // setOpen(false);
+    // form.reset();
     // dispatch(updateTask(data as ITask))
   }
 
@@ -60,11 +61,13 @@ export function AddTaskModal({args}) {
     <Dialog open={open} onOpenChange={setOpen}>
       <form>
         <DialogTrigger asChild>
-          <Button>{args.mode === 'add' ? 'Add Task' : 'Update Task'}</Button>
+          {/* <Button>{args.mode === 'add' ? 'Add Task' : 'Update Task'}</Button> */}
+          <Button>Add Task</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{args.mode === 'add' ? 'Add Task' : 'Update Task'}</DialogTitle>
+            {/* <DialogTitle>{args.mode === 'add' ? 'Add Task' : 'Update Task'}</DialogTitle> */}
+            <DialogTitle>Add Task</DialogTitle>
 
           </DialogHeader>
 
@@ -143,9 +146,9 @@ export function AddTaskModal({args}) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {
+                        {/* {
                           users.map(user => <SelectItem value={user.id}>{user.name}</SelectItem>)
-                        }
+                        } */}
                       </SelectContent>
                     </Select>
                   </FormItem>
@@ -201,7 +204,8 @@ export function AddTaskModal({args}) {
                 <DialogClose asChild>
                   <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button type="submit">{args.mode === 'add' ? 'Add Task' : 'Update Task'}</Button>
+                {/* <Button type="submit">{args.mode === 'add' ? 'Add Task' : 'Update Task'}</Button> */}
+                <Button type="submit">Add Task</Button>
               </DialogFooter>
             </form>
           </Form>
