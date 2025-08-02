@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from './redux/hooks.ts';
 function App() {
   const dispatch = useAppDispatch();
   const { count } = useAppSelector((state) => state.counter);
-  console.log("This is the count: ", count);
+  // console.log("This is the count: ", count);
 
   const incrementHandler = (value : number) => {
     dispatch(increment(value));
