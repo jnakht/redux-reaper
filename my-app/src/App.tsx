@@ -16,6 +16,9 @@ function App() {
   const decrementHandler = () => {
     dispatch(decrement());
   }
+  const handleBlockButton = () => {
+    dispatch({type: "BLOCK_ME"});
+  }
 
   return (
     <>
@@ -24,6 +27,7 @@ function App() {
         <Button onClick={ () => incrementHandler(1) }>Increment</Button>
         <h3>{ count }</h3>
         <Button onClick={decrementHandler}>Decrement</Button>
+        <Button onClick={handleBlockButton}>Block Me</Button>
       </div>
     </>
   )

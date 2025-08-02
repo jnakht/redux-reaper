@@ -7,4 +7,15 @@ const logger = (state) => (next) => (action) => {
     console.groupEnd();
     return result;
 }
+
+const blockCertainAction = (state) => (next) => (action) => {
+    if (action.type === 'BLOCK_ME') {
+        console.warn("Blocked: ", action.type);
+        return;
+    }
+    return next(action);
+}
+
+export { blockCertainAction } ;
+
 export default logger;
