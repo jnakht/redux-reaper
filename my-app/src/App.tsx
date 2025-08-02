@@ -10,8 +10,8 @@ function App() {
   const { count } = useAppSelector((state) => state.counter);
   console.log("This is the count: ", count);
 
-  const incrementHandler = () => {
-    dispatch(increment());
+  const incrementHandler = (value : number) => {
+    dispatch(increment(value));
   }
   const decrementHandler = () => {
     dispatch(decrement());
@@ -20,7 +20,8 @@ function App() {
   return (
     <>
       <div>
-        <Button onClick={incrementHandler}>Increment</Button>
+        <Button onClick={ () => incrementHandler(5) }>Increment By 5</Button>
+        <Button onClick={ () => incrementHandler(1) }>Increment</Button>
         <h3>{ count }</h3>
         <Button onClick={decrementHandler}>Decrement</Button>
       </div>
