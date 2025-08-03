@@ -6,7 +6,7 @@ import logger, { blockCertainAction } from "@/middlewares/logger";
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
-        tasks: tasksReducer,
+        todo: tasksReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger, blockCertainAction),
 })

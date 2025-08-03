@@ -7,6 +7,7 @@ import Tasks from './pages/Tasks.tsx';
 import User from './pages/User.tsx';
 import { useAppDispatch, useAppSelector } from './redux/hooks.ts';
 import { ModeToggle } from './components/ui/mode-toggle.tsx';
+import { selectFilter, selectTasks } from './redux/features/task/taskSlice.ts';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,14 @@ function App() {
   const handleBlockButton = () => {
     dispatch({ type: "BLOCK_ME" });
   }
+
+  // we can get the tasks like that 
+  // const tasks = useAppSelector((state) => state.todo.tasks);
+  // but there is a more useful selector function 
+  const tasks = useAppSelector(selectTasks);
+  const filter = useAppSelector(selectFilter);
+  console.log(tasks);
+  console.log(filter);
 
   return (
     <>
