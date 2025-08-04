@@ -17,7 +17,8 @@ const initialState: IInitialState = {
             description: "do it as i said",
             dueDate: "2022-09-23",
             isCompleted: false,
-            priority: "High"
+            priority: "High",
+            assignedTo: '1100',
         },
         {
             id: "344",
@@ -25,7 +26,8 @@ const initialState: IInitialState = {
             description: "do it as i said",
             dueDate: "2022-09-23",
             isCompleted: false,
-            priority: "High"
+            priority: "High",
+            assignedTo: '4433', 
         }
     ],
     filter: "All",
@@ -33,7 +35,7 @@ const initialState: IInitialState = {
 
 
 
-type DraftTask = Pick<ITask, "title" | "description" | "priority" | "dueDate">;
+type DraftTask = Pick<ITask, "title" | "description" | "priority" | "dueDate" | "assignedTo">;
 export type UpdateTask = Pick<ITask, "id" | "title" | "description" | "priority" | "dueDate">
 
 const createTask = (draftTask: DraftTask): ITask => {
@@ -41,7 +43,8 @@ const createTask = (draftTask: DraftTask): ITask => {
     return {
         ...draftTask,
         id: id,
-        isCompleted: false
+        isCompleted: false,
+        assignedTo: draftTask.assignedTo ? draftTask.assignedTo : null,
     }
 }
 

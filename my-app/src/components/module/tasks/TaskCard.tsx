@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { deleteTask, toggleCompletedTask } from "@/redux/features/task/taskSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Trash2 } from "lucide-react";
 import { AddTaskDialog } from "./AddTaskDialog";
+import { selectUsers } from "@/redux/features/user/userSlice";
+
 
 export default function TaskCard({task}) {
     const dispatch = useAppDispatch();
@@ -12,6 +14,11 @@ export default function TaskCard({task}) {
         mode: "update",
         initialData: task,
     }
+    const users = useAppSelector(selectUsers);
+    const user = users.find(user => 
+        user.id === task.assignedTo
+    )
+    
   return (
     <div className="border-2 border-green-400 rounded-md max-w-[80%] mx-auto p-4 mb-4">
         {/* upper section on card */}
@@ -38,6 +45,7 @@ export default function TaskCard({task}) {
         {/* lower section on card */}
         <div className="flex justify-between items-center my-4">
             <h3>{task.description}</h3>
+            <h3>Assigned To: {user?.name ? user?.name :  'N/A'}</h3>
             <AddTaskDialog args={args}></AddTaskDialog>
         </div>
     </div>
