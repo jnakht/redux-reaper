@@ -1,8 +1,12 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { deleteTask, toggleCompletedTask } from "@/redux/features/task/taskSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { Trash2 } from "lucide-react";
 
 export default function TaskCard({task}) {
+    const dispatch = useAppDispatch();
+    
   return (
     <div className="border-2 border-green-400 rounded-md max-w-[80%] mx-auto p-4 mb-4">
         {/* upper section on card */}
@@ -14,12 +18,16 @@ export default function TaskCard({task}) {
                     "bg-yellow-500" : task.priority === "Medium",
                     "bg-red-500" : task.priority === "High",
                 })}></div>
-                <h3>{task.title}</h3>
+                <h3 className={cn({
+                    "line-through" :  task.isCompleted
+                })}>{task.title}</h3>
             </div>
             {/* right part */}
             <div className="flex justify-between items-center gap-3">
-                <Trash2 />
-                <Checkbox />
+                <Trash2 onClick={() => dispatch(deleteTask(task.id))} className="text-red-500"/>
+                <Checkbox checked={task.isCompleted === true} onClick={() => 
+                    dispatch(toggleCompletedTask(task.id))
+                } />
             </div>
         </div>
         {/* lower section on card */}
