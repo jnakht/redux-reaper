@@ -21,7 +21,7 @@ export default function Tasks() {
   return (
     <div>
       <div className="max-w-[80%] flex justify-end mx-auto my-4">
-        <Tabs defaultValue="account" className="w-[400px]">
+        <Tabs defaultValue="All" className="w-[400px]">
           <TabsList>
             <TabsTrigger onClick={() =>
               onUpdateFilter('All')
