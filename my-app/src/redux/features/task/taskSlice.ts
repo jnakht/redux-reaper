@@ -73,9 +73,10 @@ export const taskSlice = createSlice({
             state.tasks[index] = {
                 ...state.tasks[index],
                 ...action.payload
-            }
-
-            
+            }  
+        },
+        updateFilter: (state, action : PayloadAction<"All" | "Low" | "Medium" | "High">) => {
+            state.filter = action.payload;
         }
     }
 })
@@ -93,5 +94,6 @@ export const {
      toggleCompletedTask, 
      deleteTask, 
      updateTask,
+     updateFilter,
 } = taskSlice.actions;
 export default taskSlice.reducer;
