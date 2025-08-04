@@ -31,7 +31,10 @@ const initialState: IInitialState = {
     filter: "All",
 }
 
+
+
 type DraftTask = Pick<ITask, "title" | "description" | "priority" | "dueDate">;
+export type UpdateTask = Pick<ITask, "id" | "title" | "description" | "priority" | "dueDate">
 
 const createTask = (draftTask: DraftTask): ITask => {
     const id = nanoid();
@@ -62,6 +65,17 @@ export const taskSlice = createSlice({
             state.tasks = state.tasks.filter(task => 
                 task.id !== action.payload
             )
+        },
+        updateTask: (state, action : PayloadAction<UpdateTask>) => {
+            const index = state.tasks.findIndex(task => 
+                task.id === action.payload.id
+            )
+            state.tasks[index] = {
+                ...state.tasks[index],
+                ...action.payload
+            }
+
+            
         }
     }
 })
@@ -78,5 +92,6 @@ export const {
      addTask, 
      toggleCompletedTask, 
      deleteTask, 
+     updateTask,
 } = taskSlice.actions;
 export default taskSlice.reducer;

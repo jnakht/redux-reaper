@@ -8,11 +8,13 @@ export default function Tasks() {
 
 
   const tasks = useAppSelector(selectTasks);
-
+  const args = {
+    mode: "add",
+  }
   return (
     <div>
       <div className="max-w-[80%] flex justify-end mx-auto my-4">
-        <AddTaskDialog></AddTaskDialog>
+        <AddTaskDialog args={args}></AddTaskDialog>
       </div>
       <div>
         {

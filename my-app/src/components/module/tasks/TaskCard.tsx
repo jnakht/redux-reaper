@@ -1,12 +1,17 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { deleteTask, toggleCompletedTask } from "@/redux/features/task/taskSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { Trash2 } from "lucide-react";
+import { AddTaskDialog } from "./AddTaskDialog";
 
 export default function TaskCard({task}) {
     const dispatch = useAppDispatch();
-    
+    const args = {
+        mode: "update",
+        initialData: task,
+    }
   return (
     <div className="border-2 border-green-400 rounded-md max-w-[80%] mx-auto p-4 mb-4">
         {/* upper section on card */}
@@ -31,8 +36,9 @@ export default function TaskCard({task}) {
             </div>
         </div>
         {/* lower section on card */}
-        <div>
+        <div className="flex justify-between items-center my-4">
             <h3>{task.description}</h3>
+            <AddTaskDialog args={args}></AddTaskDialog>
         </div>
     </div>
   );

@@ -17,7 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { addTask } from "@/redux/features/task/taskSlice"
+import { addTask, updateTask, type UpdateTask } from "@/redux/features/task/taskSlice"
 import { useAppDispatch } from "@/redux/hooks"
 import type { ITask } from "@/types"
 import { format } from "date-fns"
@@ -25,24 +25,36 @@ import { CalendarIcon } from "lucide-react"
 import { useState } from "react"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 
-export function AddTaskDialog() {
+export function AddTaskDialog({args}) {
     const [open, setOpen] = useState(false);
 
     const dispatch = useAppDispatch();
 
     const form = useForm({
-        defaultValues: {
+        defaultValues: args?.initialData ??  {
             title: '',
             description: '',
             priority: '',
             dueDate: '',
         }
     });
+
     const onSubmit : SubmitHandler<FieldValues> = (value) => {
         // e.preventDefault();
         // console.log(e.target.name);
+
         console.log(value);
-        dispatch(addTask(value as ITask));
+        if (args.mode === 'add') {
+            dispatch(addTask(value as ITask));
+        } else if (args.mode === 'update') {
+            const draftData = {
+              id: args.initialData.id,
+              ...value 
+            }
+            dispatch(updateTask(draftData as UpdateTask));
+        }
+        
+        
         setOpen(false);
         form.reset();
     }
@@ -51,11 +63,11 @@ export function AddTaskDialog() {
         <Dialog open={open} onOpenChange={setOpen}>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Add Task</Button>
+                    <Button variant="outline">{ args?.initialData ? "Update Task" : "Add Task"}</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Add Task</DialogTitle>
+                        <DialogTitle>{ args?.initialData ? "Update Task" : "Add Task"}</DialogTitle>
                     </DialogHeader>
                     
                     <Form {...form}>
@@ -94,13 +106,13 @@ export function AddTaskDialog() {
                                     <FormItem>
                                         <FormLabel>Priority</FormLabel>
                                         {/* <Select onValueChange={field.onChange} defaultValue={field.value}> */}
-                                        <Select onValueChange={field.onChange} >
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Select a priority" />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent>
+                                            <SelectContent >
                                                 <SelectItem value="Low">Low</SelectItem>
                                                 <SelectItem value="Medium">Medium</SelectItem>
                                                 <SelectItem value="High">High</SelectItem>
@@ -155,7 +167,7 @@ export function AddTaskDialog() {
                                 <DialogClose asChild>
                                     <Button variant="outline">Cancel</Button>
                                 </DialogClose>
-                                <Button type="submit">Save changes</Button>
+                                <Button type="submit">{ args?.initialData ? "Update Task" : "Add Task"}</Button>
                             </DialogFooter>
                         </form>
                     </Form>
