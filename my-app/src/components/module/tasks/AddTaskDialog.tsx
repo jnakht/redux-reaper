@@ -17,6 +17,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
+import { addTask } from "@/redux/features/task/taskSlice"
+import { useAppDispatch } from "@/redux/hooks"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { useState } from "react"
@@ -24,6 +26,8 @@ import { useForm } from "react-hook-form"
 
 export function AddTaskDialog() {
     const [open, setOpen] = useState(false);
+
+    const dispatch = useAppDispatch();
 
     const form = useForm({
         defaultValues: {
@@ -37,6 +41,7 @@ export function AddTaskDialog() {
         // e.preventDefault();
         // console.log(e.target.name);
         console.log(value);
+        dispatch(addTask(value));
         setOpen(false);
         form.reset();
     }

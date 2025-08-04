@@ -1,6 +1,6 @@
 import type { RootState } from "@/redux/store";
 import type { ITask } from "@/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
 
 
 
@@ -31,11 +31,23 @@ const initialState : IInitialState = {
     filter: "All",
 }
 
+const createTask = (draftTask) => {
+    const id = nanoid();
+    return {
+        ...draftTask,
+        id: id,
+        isCompleted: false
+    }
+}
+
 export const taskSlice = createSlice({
     name: "tasks",
     initialState,
     reducers: {
-
+        addTask: (state, action : PayloadAction<ITask>) => {
+            const draftTask = createTask(action.payload);
+            state.tasks.push(draftTask);
+        }
     }
 })
 
@@ -47,5 +59,5 @@ export const selectFilter = (state : RootState) => {
     return state.todo.filter;
 }
 
-export const { } = taskSlice.actions;
+export const { addTask, } = taskSlice.actions;
 export default taskSlice.reducer;
