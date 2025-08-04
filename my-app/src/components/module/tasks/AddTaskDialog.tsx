@@ -19,10 +19,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { addTask } from "@/redux/features/task/taskSlice"
 import { useAppDispatch } from "@/redux/hooks"
+import type { ITask } from "@/types"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 
 export function AddTaskDialog() {
     const [open, setOpen] = useState(false);
@@ -37,11 +38,11 @@ export function AddTaskDialog() {
             dueDate: '',
         }
     });
-    const onSubmit = (value) => {
+    const onSubmit : SubmitHandler<FieldValues> = (value) => {
         // e.preventDefault();
         // console.log(e.target.name);
         console.log(value);
-        dispatch(addTask(value));
+        dispatch(addTask(value as ITask));
         setOpen(false);
         form.reset();
     }

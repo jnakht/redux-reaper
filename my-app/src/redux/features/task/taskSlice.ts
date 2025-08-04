@@ -31,7 +31,9 @@ const initialState : IInitialState = {
     filter: "All",
 }
 
-const createTask = (draftTask) => {
+type DraftTask = Pick<ITask, "title" | "description" | "priority" | "dueDate">;
+
+const createTask = (draftTask : DraftTask) : ITask => {
     const id = nanoid();
     return {
         ...draftTask,
@@ -44,7 +46,7 @@ export const taskSlice = createSlice({
     name: "tasks",
     initialState,
     reducers: {
-        addTask: (state, action : PayloadAction<ITask>) => {
+        addTask: (state, action : PayloadAction<DraftTask>) => {
             const draftTask = createTask(action.payload);
             state.tasks.push(draftTask);
         }
