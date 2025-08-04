@@ -10,7 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -19,27 +19,30 @@ import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 export function AddTaskDialog() {
-
+    const [open, setOpen] = useState(false);
 
     const form = useForm({
         defaultValues: {
-            title: "",
-            description: "",
-            priority: "",
-            dueDate: "",
+            title: '',
+            description: '',
+            priority: '',
+            dueDate: '',
         }
     });
     const onSubmit = (value) => {
         // e.preventDefault();
         // console.log(e.target.name);
         console.log(value);
+        setOpen(false);
+        form.reset();
     }
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <form>
                 <DialogTrigger asChild>
                     <Button variant="outline">Add Task</Button>
@@ -48,9 +51,10 @@ export function AddTaskDialog() {
                     <DialogHeader>
                         <DialogTitle>Add Task</DialogTitle>
                     </DialogHeader>
-
+                    
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <form onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex flex-col gap-4">
                             <FormField
                                 control={form.control}
                                 name="title"
@@ -58,7 +62,7 @@ export function AddTaskDialog() {
                                     <FormItem>
                                         <FormLabel>Title</FormLabel>
                                         <FormControl>
-                                            <Input {...field} ></Input>
+                                            <Input {...field} onChange={field.onChange}></Input>
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -70,11 +74,12 @@ export function AddTaskDialog() {
                                     <FormItem>
                                         <FormLabel>Description</FormLabel>
                                         <FormControl>
-                                            <Textarea {...field} value={field.value}></Textarea>
+                                            <Textarea {...field} onChange={field.onChange}></Textarea>
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
+
 
                             <FormField
                                 control={form.control}
@@ -82,10 +87,11 @@ export function AddTaskDialog() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Priority</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        {/* <Select onValueChange={field.onChange} defaultValue={field.value}> */}
+                                        <Select onValueChange={field.onChange} >
                                             <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select Priority" />
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Select a priority" />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
@@ -110,7 +116,7 @@ export function AddTaskDialog() {
                                                     <Button
                                                         variant={"outline"}
                                                         className={cn(
-                                                            "w-[240px] pl-3 text-left font-normal",
+                                                            " pl-3 text-left font-normal",
                                                             !field.value && "text-muted-foreground"
                                                         )}
                                                     >
@@ -128,9 +134,9 @@ export function AddTaskDialog() {
                                                     mode="single"
                                                     selected={field.value}
                                                     onSelect={field.onChange}
-                                                    disabled={(date) =>
-                                                        date > new Date() || date < new Date("1900-01-01")
-                                                    }
+                                                    // disabled={(date) =>
+                                                    //     date > new Date() || date < new Date("1900-01-01")
+                                                    // }
                                                     captionLayout="dropdown"
                                                 />
                                             </PopoverContent>
@@ -139,7 +145,7 @@ export function AddTaskDialog() {
                                 )}
                             />
 
-                            <DialogFooter>
+                            <DialogFooter className="mt-5">
                                 <DialogClose asChild>
                                     <Button variant="outline">Cancel</Button>
                                 </DialogClose>
