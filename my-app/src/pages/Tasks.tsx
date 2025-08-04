@@ -1,3 +1,4 @@
+import { AddTaskDialog } from "@/components/module/tasks/AddTaskDialog";
 import TaskCard from "@/components/module/tasks/TaskCard";
 import { selectTasks } from "@/redux/features/task/taskSlice";
 import { useAppSelector } from "@/redux/hooks";
@@ -10,7 +11,9 @@ export default function Tasks() {
 
   return (
     <div>
-      <h3>This is Tasks component</h3>
+      <div className="max-w-[80%] flex justify-end mx-auto my-4">
+        <AddTaskDialog></AddTaskDialog>
+      </div>
       <div>
         {
           tasks.map(task => <TaskCard task={task}></TaskCard>)
