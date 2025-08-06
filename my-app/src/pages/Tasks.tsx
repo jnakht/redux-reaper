@@ -9,7 +9,12 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 export default function Tasks() {
 
 
-  const { data, error, isLoading } = useGetTasksQuery(undefined);
+  const { data, error, isLoading } = useGetTasksQuery(undefined, {
+    pollingInterval: 30000,
+    refetchOnFocus: true, 
+    refetchOnMountOrArgChange: true, 
+    refetchOnReconnect: true
+  });
 
   // const tasks = useAppSelector(selectTasks);
   const args = {
