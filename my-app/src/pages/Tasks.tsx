@@ -1,6 +1,7 @@
 import { AddTaskDialog } from "@/components/module/tasks/AddTaskDialog";
 import TaskCard from "@/components/module/tasks/TaskCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGetTasksQuery } from "@/redux/api/baseApi";
 import { selectTasks, updateFilter } from "@/redux/features/task/taskSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
@@ -8,15 +9,28 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 export default function Tasks() {
 
 
-  const tasks = useAppSelector(selectTasks);
+  const { data, error, isLoading } = useGetTasksQuery(undefined);
+
+  // const tasks = useAppSelector(selectTasks);
   const args = {
     mode: "add",
   }
+
+  console.log({data, error, isLoading});
 
   const dispatch = useAppDispatch();
 
   const onUpdateFilter = (filter) => {
     dispatch(updateFilter(filter))
+  }
+
+
+  if (isLoading) {
+    return <>
+        <div className="h-[100vh] w-[100vw] flex justify-center items-center text-5xl">
+          <h3>Loading...</h3>
+        </div>
+    </>
   }
   return (
     <div>
@@ -41,7 +55,7 @@ export default function Tasks() {
       </div>
       <div>
         {
-          tasks.map(task => <TaskCard task={task} key={task.id}></TaskCard>)
+          data?.tasks.map(task => <TaskCard task={task} key={task.id}></TaskCard>)
         }
       </div>
     </div>
