@@ -17,6 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
+import { useCreateTaskMutation } from "@/redux/api/baseApi"
 import { addTask, updateTask, type UpdateTask } from "@/redux/features/task/taskSlice"
 import { selectUsers } from "@/redux/features/user/userSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
@@ -41,21 +42,28 @@ export function AddTaskDialog({args}) {
         }
     });
 
-    const onSubmit : SubmitHandler<FieldValues> = (value) => {
+    const [createPost, { data, isLoading, error }] = useCreateTaskMutation();
+
+
+    console.log("outside handle: ", data);
+    const onSubmit : SubmitHandler<FieldValues> = async (value) => {
         // e.preventDefault();
         // console.log(e.target.name);
 
         console.log(value);
-        if (args.mode === 'add') {
-            dispatch(addTask(value as ITask));
-        } else if (args.mode === 'update') {
-            const draftData = {
-              id: args.initialData.id,
-              ...value, 
-            }
-            dispatch(updateTask(draftData as UpdateTask));
-        }
+        // if (args.mode === 'add') {
+        //     dispatch(addTask(value as ITask));
+        // } else if (args.mode === 'update') {
+        //     const draftData = {
+        //       id: args.initialData.id,
+        //       ...value, 
+        //     }
+        //     dispatch(updateTask(draftData as UpdateTask));
+        // }
         
+
+        const res = await createPost(value).unwrap();
+        console.log("inside handle: ", res);
         
         setOpen(false);
         form.reset();
