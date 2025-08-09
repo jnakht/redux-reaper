@@ -1,5 +1,6 @@
 import App from '@/App'
 import Books from '@/pages/Books'
+import BooksRecap from '@/pages/BooksRecap'
 import Tasks from '@/pages/Tasks'
 import Users from '@/pages/Users'
 import { createBrowserRouter } from 'react-router'

@@ -77,7 +77,7 @@ export default function Books() {
                     className="bg-black"
                     value={page}
                     onChange={(event) => {
-                        setPage(event.target.value)
+                        setPage(Number(event.target.value))
                     }}
                 >
                     {Array(pageCount)
