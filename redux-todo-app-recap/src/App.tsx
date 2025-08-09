@@ -17,6 +17,7 @@ function App() {
             <Button>This is App Component</Button>
             <Link to="Tasks"><Button>Tasks</Button></Link>
             <Link to="Users"><Button>Users</Button></Link>
+            <Link to="Books"><Button>Books</Button></Link>
           </div>
 
           <div>
