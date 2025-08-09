@@ -3,6 +3,7 @@ import BooksCard from "@/components/modules/tasks/BooksCard";
 import { Button } from "@/components/ui/button";
 import { useGetAllBooksQuery } from "@/redux/features/books/booksApi";
 import { useEffect, useState } from "react";
+import TablePagination from '@mui/material/TablePagination';
 
 
 export default function Books() {
@@ -22,22 +23,38 @@ export default function Books() {
     // }
 
     const [data, setData] = useState(null);
-    const [page, setPage] = useState(1)
-    const [pageCount, setPageCount] = useState(0)
+    const [page, setPage] = useState(0)
+    const [pageCount, setPageCount] = useState(1)
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [totalData, setTotalData] = useState(100);
 
 
-    const handlePrevious = () => {
-        setPage((prev) => {
-            if (prev === 1) return prev;
-            return prev - 1;
-        });
-    }
-    const handleNext = () => {
-        setPage((prev) => {
-            if (prev === pageCount) return prev;
-            return prev + 1;
-        });
-    }
+    // const handlePrevious = () => {
+    //     setPage((prev) => {
+    //         if (prev === 1) return prev;
+    //         return prev - 1;
+    //     });
+    // }
+    // const handleNext = () => {
+    //     setPage((prev) => {
+    //         if (prev === pageCount) return prev;
+    //         return prev + 1;
+    //     });
+    // }
+
+    const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number,
+    ) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     useEffect(() => {
         const fetchBooksData = async (pageNumber, docLimit) => {
@@ -47,9 +64,10 @@ export default function Books() {
             // setData(data.data);
             setData(json?.data);
             setPageCount(json?.totalPages)
+            setTotalData(json.total);
             console.log(json);
         }
-        fetchBooksData(page, 10);
+        fetchBooksData(page + 1, rowsPerPage);
     }, [page])
 
 
@@ -70,10 +88,10 @@ export default function Books() {
 
             </div>
             <footer className="mr-10 flex gap-4 justify-end mb-20">
-                <Button disabled={page === 1} className="text-2xl" onClick={handlePrevious}>prev</Button>
-                <Button disabled={page === pageCount} className="text-2xl " onClick={handleNext}>next</Button>
+                {/* <Button disabled={page === 1} className="text-2xl" onClick={handlePrevious}>prev</Button>
+                <Button disabled={page === pageCount} className="text-2xl " onClick={handleNext}>next</Button> */}
 
-                <select
+                {/* <select
                     className="bg-black"
                     value={page}
                     onChange={(event) => {
@@ -86,7 +104,18 @@ export default function Books() {
                             return <option key={index}>{index + 1}</option>
                         })
                     }
-                </select>
+                </select> */}
+
+
+                <TablePagination
+                    component="div"
+                    count={totalData}
+                    page={page}
+
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
             </footer>
         </div>
     );
